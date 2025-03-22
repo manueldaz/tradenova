@@ -149,7 +149,12 @@ print(res.json())</code></pre>
 </footer>
 
 <!-- Scripts -->
-<script>
+<script>  
+  
+  // Theme Toggle
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+  });
 
   // Tab Switch with animation
   function switchTab(tabId) {
@@ -237,14 +242,6 @@ print(res.json())</code></pre>
 </div>
 
 <script>
-  document.getElementById("themeToggle").addEventListener("click", () => {
-    document.documentElement.classList.toggle("dark");
-  });
-
-  document.getElementById("menuToggle").addEventListener("click", () => {
-    const menu = document.getElementById("mobileMenu");
-    menu.classList.toggle("hidden");
-  });
 
   function switchTab(tabId) {
     document.getElementById("loader").classList.remove("hidden");
