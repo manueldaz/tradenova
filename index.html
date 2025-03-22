@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TradeNova Trading API</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+
+  <!-- Highlight.js for code examples -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-white text-gray-900 dark:bg-black dark:text-white transition-colors duration-300">
+
+<!-- Navbar -->
+<nav class="flex justify-center p-6 bg-gray-100 dark:bg-gray-900">
+  <div class="flex items-center space-x-8">
+    <h1 class="text-2xl font-bold">TradeNova</h1>
+    <div class="space-x-4">
+      <a href="#" class="hover:text-green-500 dark:hover:text-green-400">Scanner</a>
+      <a href="#" class="hover:text-green-500 dark:hover:text-green-400">Market</a>
+      <a href="#" class="hover:text-green-500 dark:hover:text-green-400">Products</a>
+      <a href="#" class="hover:text-green-500 dark:hover:text-green-400">Dashboard</a>
+    </div>
+    <button id="themeToggle" class="ml-4 px-3 py-1 bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded transition">
+      Toggle Theme
+    </button>
+  </div>
+</nav>
+
+<!-- Header -->
+<section class="text-center py-12 px-4">
+  <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-fade-in">TradeNova Trading API</h2>
+  <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-4 animate-fade-in-delayed">
+    Access powerful trading algorithms, real-time market data, and advanced signals through a comprehensive API suite.
+  </p>
+  <div class="space-x-4">
+    <button onclick="switchTab('pricing')" class="tab-btn text-blue-500 underline text-sm">Pricing Plans</button>
+    <button onclick="switchTab('docs')" class="tab-btn text-blue-500 underline text-sm">API Documentation</button>
+    <button onclick="switchTab('code')" class="tab-btn text-blue-500 underline text-sm">Code Examples</button>
+  </div>
+</section>
+
+<!-- Loading Animation -->
+<div id="loader" class="hidden text-center py-4 animate-pulse">Loading...</div>
+
+<!-- Pricing -->
+<section id="pricing" class="tab-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-16 max-w-7xl mx-auto">
+  <!-- Basic API -->
+  <div class="card hover:scale-105 transition transform duration-300">
+    <h3 class="text-xl font-semibold mb-2">Basic API</h3>
+    <p class="text-3xl font-bold mb-4">$199 <span class="text-base font-normal">/month</span></p>
+    <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+      <li>✔️ 100 API calls per day</li>
+      <li>✔️ Market data with 5-min delay</li>
+      <li>✔️ Basic trading signals</li>
+      <li>✔️ Email support</li>
+      <li>✔️ Single endpoint access</li>
+    </ul>
+    <button class="purchase-btn mt-4" onclick="openModal('Basic API', '$199')">Purchase Now</button>
+  </div>
+
+  <!-- Pro API -->
+  <div class="card border-2 border-green-400 relative hover:scale-105 transition transform duration-300">
+    <span class="absolute top-0 right-0 bg-green-600 text-white text-xs px-2 py-1 rounded-bl-lg">MOST POPULAR</span>
+    <h3 class="text-xl font-semibold mb-2">Pro API</h3>
+    <p class="text-3xl font-bold mb-4">$499 <span class="text-base font-normal">/month</span></p>
+    <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+      <li>✔️ 1,000 API calls per day</li>
+      <li>✔️ Real-time market data</li>
+      <li>✔️ Advanced trading signals</li>
+      <li>✔️ Historical data (3 months)</li>
+      <li>✔️ Priority email support</li>
+    </ul>
+    <button class="purchase-btn mt-4" onclick="openModal('Pro API', '$499')">Purchase Now</button>
+  </div>
+
+  <!-- Premium API -->
+  <div class="card hover:scale-105 transition transform duration-300">
+    <h3 class="text-xl font-semibold mb-2">Premium API</h3>
+    <p class="text-3xl font-bold mb-4">$899 <span class="text-base font-normal">/month</span></p>
+    <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+      <li>✔️ Unlimited API calls</li>
+      <li>✔️ Real-time market data</li>
+      <li>✔️ Premium trading signals</li>
+      <li>✔️ Historical data (Unlimited)</li>
+      <li>✔️ Custom integration</li>
+      <li>✔️ SLA guaranteed</li>
+      <li>✔️ 24/7 dedicated support</li>
+    </ul>
+    <button class="purchase-btn mt-4" onclick="openModal('Premium API', '$899')">Purchase Now</button>
+  </div>
+</section>
+
+<!-- Documentation Section -->
+<section id="docs" class="tab-section hidden px-6 pb-16 max-w-7xl mx-auto">
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+    <h3 class="text-2xl font-bold mb-4">API Documentation</h3>
+    <div class="prose dark:prose-invert">
+      <h2>Authentication</h2>
+      <p>Use your API key in the headers.</p>
+      <pre><code>{"Authorization": "Bearer YOUR_API_KEY"}</code></pre>
+      <h2>Endpoints</h2>
+      <ul>
+        <li><b>/market</b> - Market Data</li>
+        <li><b>/signals</b> - Trading Signals</li>
+        <li><b>/account</b> - Manage Account</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Code Section -->
+<section id="code" class="tab-section hidden px-6 pb-16 max-w-7xl mx-auto">
+  <div class="bg-gray-900 text-white rounded-xl shadow-md p-6">
+    <h3 class="text-2xl font-bold mb-4">API Code Examples</h3>
+    <pre><code class="language-js">fetch("https://api.tradenova.com/market", {
+  headers: { "Authorization": "Bearer YOUR_API_KEY" }
+}).then(res => res.json()).then(data => console.log(data));</code></pre>
+    <pre><code class="language-python">import requests
+headers = {'Authorization': 'Bearer YOUR_API_KEY'}
+res = requests.get("https://api.tradenova.com/market", headers=headers)
+print(res.json())</code></pre>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="bg-gray-100 dark:bg-gray-900 py-12 px-4 text-center">
+  <h3 class="text-3xl font-bold mb-4">Stay Updated</h3>
+  <p class="text-gray-400 mb-6">Enter your email to get updates and promotions</p>
+  <form class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('Thank you for subscribing!')">
+    <input type="email" placeholder="Enter your email" required class="px-4 py-2 rounded-lg w-full sm:w-auto flex-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white"/>
+    <button type="submit" class="purchase-btn">Subscribe</button>
+  </form>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-100 dark:bg-gray-900 text-center py-6 mt-12">
+  <p class="text-sm text-gray-600 dark:text-gray-400">&copy; 2025 TradeNova. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script>
+  // Theme Toggle
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+  });
+
+  // Tab Switch with animation
+  function switchTab(tabId) {
+    document.getElementById("loader").classList.remove("hidden");
+    const tabs = document.querySelectorAll(".tab-section");
+    tabs.forEach(tab => tab.classList.add("hidden"));
+
+    setTimeout(() => {
+      tabs.forEach(tab => tab.classList.remove("animate-fade-in"));
+      const target = document.getElementById(tabId);
+      target.classList.remove("hidden");
+      target.classList.add("animate-fade-in");
+      document.getElementById("loader").classList.add("hidden");
+    }, 500);
+  }
+</script>
+
+  <!-- Modal Steps -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full text-center">
+    <button onclick="closeModal()" class="absolute top-2 right-4 text-2xl font-bold text-red-500">×</button>
+    <!-- Step 1: User Details -->
+
+<!-- Step 1: Details Form -->
+<div id="modalStep1" class="step">
+  <h3 class="text-xl font-semibold mb-2">Your Details</h3>
+  <p class="text-sm mb-4 text-gray-500">Please provide your information to receive your API key.</p>
+  <form id="purchaseForm">
+    <label class="block mb-2 text-sm">Full Name <span class="text-red-500">*</span></label>
+    <input type="text" required class="w-full mb-4 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600" placeholder="Enter your full name">
+
+    <label class="block mb-2 text-sm">Email Address <span class="text-red-500">*</span></label>
+    <input type="email" required class="w-full mb-4 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600" placeholder="Enter your email">
+
+    <button onclick="goToStep(2)" class="bg-blue-600 text-white px-4 py-2 rounded">Next</button>
+  </form>
+</div>
+
+
+          <!-- Step 2: Payment Info -->
+          <div id="modalStep2" class="step p-6">
+            <h2 class="text-xl font-bold mb-2">Purchase API Access: <span id="selectedPlan" class="text-green-500">Pro API</span></h2>
+            <p class="mb-4">Send the exact amount in crypto to one of the addresses below:</p>
+
+            <div class="mb-2">
+              <label class="font-semibold">Ethereum (ETH)</label>
+              <div class="bg-gray-200 p-2 rounded text-sm flex justify-between items-center">
+                <span id="ethAddr">0xb60v350nyrmocyETH</span>
+                <button onclick="copyText('0xb60v350nyrmocyETH')">📋</button>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label class="font-semibold">Bitcoin (BTC)</label>
+              <div class="bg-gray-200 p-2 rounded text-sm flex justify-between items-center">
+                <span id="btcAddr">1BvBMSEYstBTC...</span>
+                <button onclick="copyText('1BvBMSEYstBTC...')">📋</button>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="font-semibold">Solana (SOL)</label>
+              <div class="bg-gray-200 p-2 rounded text-sm flex justify-between items-center">
+                <span id="solAddr">6FzrTxSOLo...</span>
+                <button onclick="copyText('6FzrTxSOLo...')">📋</button>
+              </div>
+            </div>
+
+            
+            <div class="mt-4">
+              <p class="text-orange-500 text-sm mb-4">⚠️ Important: Include your email in the transaction memo if possible.</p>
+              <button onclick="goToStep(1)" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button>
+              <button onclick="goToStep(3)" class="bg-blue-600 text-white px-4 py-2 rounded">Next</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Confirmation -->
+          <div id="modalStep3" class="step p-6 text-center">
+            <h2 class="text-2xl font-bold mb-2">Thank You!</h2>
+            <p class="mb-2">We've received your details and payment.</p>
+            <p class="text-sm">Confirmation will be sent to: <span id="userEmail" class="font-semibold"></span></p>
+            <button onclick="closeModal()" class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Close</button>
+          </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+  });
+
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("hidden");
+  });
+
+  function switchTab(tabId) {
+    document.getElementById("loader").classList.remove("hidden");
+    const tabs = document.querySelectorAll(".tab-section");
+    tabs.forEach(tab => tab.classList.add("hidden"));
+    setTimeout(() => {
+      document.getElementById(tabId).classList.remove("hidden");
+      document.getElementById("loader").classList.add("hidden");
+      document.getElementById(tabId).scrollIntoView({ behavior: "smooth" });
+    }, 500);
+  }
+
+  function openModal(planName, price) {
+    document.getElementById("selectedPlan").innerText = planName;
+    document.getElementById("modal").classList.remove("hidden");
+    goToStep(1);
+  }
+
+  function closeModal() {
+    document.getElementById("modal").classList.add("hidden");
+  }
+
+  function goToStep(step) {
+    document.querySelectorAll(".step").forEach(s => s.classList.add("hidden"));
+    document.getElementById(`modalStep${step}`).classList.remove("hidden");
+
+    if (step === 3) {
+      const name = document.getElementById("userName").value;
+      const email = document.getElementById("userEmail").value;
+      document.getElementById("confirmName").innerText = name || "User";
+      document.getElementById("confirmEmail").innerText = email || "your email";
+    }
+  }
+</script>
+
+</body>
+</html>
